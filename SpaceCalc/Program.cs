@@ -1,9 +1,9 @@
 ﻿using Directory = SpaceCalc.Directory;
 
-List<Directory> GetFolderSize(DirectoryInfo directory, List<Directory> data, string currPath = "")
+List<Directory> GetFoldersAndSize(DirectoryInfo directory, List<Directory> data, string currPath = "")
 {
     long length = 0;
-    if (currPath == "")
+    if (string.IsNullOrWhiteSpace(currPath))
     {
         currPath = directory.Name;
     }
@@ -30,7 +30,7 @@ List<Directory> GetFolderSize(DirectoryInfo directory, List<Directory> data, str
     {
         foreach (DirectoryInfo subDir in directory.GetDirectories())
         {
-            data.AddRange(GetFolderSize(subDir, new(), currPath));
+            data.AddRange(GetFoldersAndSize(subDir, new(), currPath));
         }
     }
     catch
@@ -57,7 +57,7 @@ String BytesToString(long byteCount)
 }
 
 DirectoryInfo root = new("C:\\");
-List<Directory> folders = GetFolderSize(root, new());
+List<Directory> folders = GetFoldersAndSize(root, new());
 
 Console.WriteLine();
 Console.WriteLine($"Found {folders.Count} folders");
