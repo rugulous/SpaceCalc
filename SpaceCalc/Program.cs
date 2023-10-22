@@ -1,4 +1,6 @@
-﻿List<(string, long)> GetFolderSize(DirectoryInfo directory, List<(string, long)> data, string currPath = "")
+﻿using Directory = SpaceCalc.Directory;
+
+List<Directory> GetFolderSize(DirectoryInfo directory, List<Directory> data, string currPath = "")
 {
     long length = 0;
     if (currPath == "")
@@ -22,7 +24,7 @@
         Console.WriteLine($"Failed to read files in {currPath}");
     }
 
-    data.Add((currPath, length));
+    data.Add(new (currPath, length));
 
     try
     {
@@ -55,19 +57,19 @@ String BytesToString(long byteCount)
 }
 
 DirectoryInfo root = new("C:\\");
-List<(string, long)> folders = GetFolderSize(root, new());
+List<Directory> folders = GetFolderSize(root, new());
 
 Console.WriteLine();
 Console.WriteLine($"Found {folders.Count} folders");
 
 folders.Sort((a, b) =>
 {
-    if(a.Item2 == b.Item2)
+    if(a.Bytes == b.Bytes)
     {
         return 0;
     }
 
-    return a.Item2 > b.Item2 ? -1 : 1;
+    return a.Bytes > b.Bytes ? -1 : 1;
 });
 
 int size = Math.Min(folders.Count, 100);
@@ -75,5 +77,5 @@ Console.WriteLine($"Top {size} largest folders");
 
 for(int i = 0; i < size; i++)
 {
-    Console.WriteLine($"[{i + 1}]. {folders[i].Item1} - {BytesToString(folders[i].Item2)}");
+    Console.WriteLine($"[{i + 1}]. {folders[i].FullPath} - {BytesToString(folders[i].Bytes)}");
 }
