@@ -41,7 +41,7 @@ List<Directory> GetFoldersAndSize(DirectoryInfo directory, List<Directory> data,
     return data;
 }
 
-String BytesToString(long byteCount)
+string BytesToString(long byteCount)
 {
     string[] suf = { "B", "KB", "MB", "GB", "TB", "PB", "EB" }; //Longs run out around EB
     if (byteCount == 0)
